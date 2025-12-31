@@ -26,7 +26,7 @@
       req.onupgradeneeded = () => {
         const db = req.result;
         if (!db.objectStoreNames.contains(IDB_STORE)) {
-          db.createObjectStore(IDB_STORE); // key -> Blob
+          db.createObjectStore(IDB_STORE);
         }
       };
       req.onsuccess = () => resolve(req.result);
@@ -166,15 +166,12 @@
   function applyViewModeUI() {
     if (BUILD_MODE) return;
 
-    // 1) прячем кнопку вызова панели и саму панель
     if (btnTogglePanel) btnTogglePanel.style.display = "none";
     if (btnClosePanel) btnClosePanel.style.display = "none";
     if (panelEl) panelEl.style.display = "none";
 
-    // 2) прячем список игрушек (если он вне panel)
     if (toyListEl) toyListEl.style.display = "none";
 
-    // 3) отключаем интерактив редактирования в UI (на всякий)
     if (btnAddCustomToy) btnAddCustomToy.disabled = true;
     if (btnExport) btnExport.disabled = true;
     if (btnClear) btnClear.disabled = true;
@@ -542,7 +539,6 @@
     );
   }
 
-  // ===== UI list =====
   function syncActiveToyUI() {
     if (!toyListEl) return;
     [...toyListEl.querySelectorAll(".toy")].forEach((el) => {
@@ -904,6 +900,7 @@
             if (!obj.name) return;
             if (obj.name === "Star") {
               starMesh = obj;
+              starMesh.visible = false;
               starBaseScale = obj.scale.x;
 
               const mats = Array.isArray(obj.material) ? obj.material : [obj.material];
